@@ -1,7 +1,10 @@
 package cn.fundview.app.domain.webservice;
 
+import android.widget.ImageView;
+
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.ResponseStream;
@@ -395,25 +398,45 @@ public class RService {
         return null;
     }
 
-    public static UserInfor getUserInfor(String uid) {
-
-        return null;
-    }
-
     /**
-     * 分页查询 关注列表 根据关注时间排序
-     *
-     * @param type     被关注者类型
-     * @param uid      关注者id
-     * @param page     当前页数
-     * @param pageSize 每页显示的条数
-     * @return 关注者列表
+     * 异步加载图片并加载到ImageView
+     * @param url 需要加载的图片url
+     * @param destPath 存储的目标位置
+     * @param imageView 加载的imageView
      */
-    public static List<AttentUser> getMyAttentUser(int type, Integer uid, int page, int pageSize) {
+    public static void downloadImgToImageView(String url, String destPath, ImageView imageView) {
 
-        List<AttentUser> list = new ArrayList<>();
+        HttpUtils http = new HttpUtils();
+        HttpHandler handler = http.download(url, destPath,
+                true, // 如果目标文件存在，接着未完成的部分继续下载。服务器不支持RANGE时将从新下载。
+                true, // 如果从请求返回信息中获取到文件名，下载完成后自动重命名。
+                new RequestCallBack<File>() {
 
-        return list;
+                    @Override
+                    public void onStart() {
+                        //testTextView.setText("conn...");
+                    }
+
+                    @Override
+                    public void onLoading(long total, long current, boolean isUploading) {
+                        //testTextView.setText(current + "/" + total);
+                    }
+
+                    @Override
+                    public void onSuccess(ResponseInfo<File> responseInfo) {
+                        //testTextView.setText("downloaded:" + responseInfo.result.getPath());
+                    }
+
+
+                    @Override
+                    public void onFailure(HttpException error, String msg) {
+                        //testTextView.setText(msg);
+                    }
+                });
+//
+////调用cancel()方法停止下载
+//        handler.cancel();
     }
+
 
 }
