@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/white"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="70dp"
+        android:layout_height="52dp"
+        android:src="@mipmap/company_logo"
+        android:contentDescription="@string/app_name"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginLeft="5dp"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/no_content"
+            android:textSize="12sp"
+            android:gravity="center_vertical|left"
+            android:textColor="@color/requ_title"/>
+        <TextView
+            android:id="@+id/hj"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/no_content"
+            android:textSize="12sp"
+            android:gravity="center_vertical|left"
+            android:textColor="@color/black"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/compname"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                android:text="@string/no_content"
+                android:textColor="@color/lightgray"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/requ_price_label"
+                android:textColor="@color/black"
+                android:layout_gravity="center_vertical|right"/>
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/default_price"
+                android:textSize="12sp"
+                android:textColor="@color/ff8000"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

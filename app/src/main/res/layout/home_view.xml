@@ -8,8 +8,8 @@
     <!-- 首页图片轮播 -->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="0dp">
+        android:layout_height="100dp"
+        android:background="@color/white">
 
         <android.support.v4.view.ViewPager
             android:id="@+id/imgs"
@@ -32,7 +32,8 @@
         android:id="@+id/search_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -164,5 +165,43 @@
                 />
         </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/lightgrayeee"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="3dp"
+        android:layout_gravity="center_vertical|left"
+        >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/rewardre"
+            android:scaleType="centerCrop"
+            android:background="@color/transparent"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:layout_marginLeft="6dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:text="@string/home_requ"/>
+
+    </LinearLayout>
+    <ListView
+        android:id="@+id/requlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/azure"
+        android:fastScrollEnabled="false"
+        ></ListView>
 
 </LinearLayout>

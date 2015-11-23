@@ -3,7 +3,8 @@ package cn.fundview.app.view;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,9 +23,12 @@ import java.util.List;
 import java.util.Map;
 
 import cn.fundview.R;
-import cn.fundview.app.adapter.SlideImgsAdapter;
+import cn.fundview.app.action.home.RequListAction;
+import cn.fundview.app.domain.model.Requ;
+import cn.fundview.app.domain.webservice.util.Constants;
+import cn.fundview.app.tool.adapter.RequAdapter;
+import cn.fundview.app.tool.adapter.SlideImgsAdapter;
 import cn.fundview.app.tool.PopUpWindow;
-import cn.fundview.app.tool.adapter.GuideViewAdapter;
 import cn.fundview.app.tool.adapter.ListViewAdapter;
 
 /**
@@ -36,7 +41,7 @@ import cn.fundview.app.tool.adapter.ListViewAdapter;
  * 修改备注：
  */
 @SuppressLint("InflateParams")
-public class HomeView extends LinearLayout implements TitleBarListener{
+public class HomeView extends LinearLayout implements TitleBarListener, AsyncTaskCompleteListener{
 
     private Context context;
     private PopUpWindow popupWindow;
@@ -54,7 +59,6 @@ public class HomeView extends LinearLayout implements TitleBarListener{
         super(context, attrs);
 
         this.context = context;
-
 
         imgs.add("http://static.fundview.cn/thumb/ad/banner1.jpg");
         imgs.add("http://static.fundview.cn/thumb/ad/banner2.jpg");
@@ -109,7 +113,7 @@ public class HomeView extends LinearLayout implements TitleBarListener{
             linearLayout.addView(dot);
         }
 
-        viewPager.setAdapter(new SlideImgsAdapter(context, imgs));
+        viewPager.setAdapter(new SlideImgsAdapter(((FragmentActivity)context).getSupportFragmentManager(), imgs));
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -127,7 +131,6 @@ public class HomeView extends LinearLayout implements TitleBarListener{
                     } else {
                         dot.setImageResource(R.drawable.dot);
                     }
-
                 }
             }
 
@@ -136,6 +139,9 @@ public class HomeView extends LinearLayout implements TitleBarListener{
 
             }
         });
+
+        //加载需求
+        new RequListAction(context, Constants.GET_HOME_REQU_LIST_URL, this);
 
     }
 
@@ -223,5 +229,20 @@ public class HomeView extends LinearLayout implements TitleBarListener{
 
 //        Intent intent = new Intent(context, CaptureActivity.class);
 //        context.startActivity(intent);
+    }
+
+    @Override
+    public void complete(int requestCode, int responseCode, Object msg) {
+        if(requestCode == 1) {
+
+            //需求列表
+            if(msg != null) {
+
+                List<Requ> list = (List<Requ>)msg;
+                RequAdapter adapter = new RequAdapter(context, list);
+                ListView listView = (ListView) this.findViewById(R.id.requlist);
+                listView.setAdapter(adapter);
+            }
+        }
     }
 }

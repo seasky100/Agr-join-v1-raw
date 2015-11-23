@@ -69,6 +69,8 @@ public class Constants {
 
     public static final String GUIDE_FRAGMENT_IMG_ID = "drawableId";
 
+    public static final String IMG_URL_KEY  = "img_url_key";
+
     // 专家json文件保存路径
     public static final String EXPERT_JSON_DIR = "/fundview/data/expert/json/";
 
@@ -86,4 +88,14 @@ public class Constants {
     public static final int EXPERT_SEARCH_TYPE = 2;
     public static final int REQU_SEARCH_TYPE = 3;
     public static final int ACHV_SEARCH_TYPE = 4;
+
+    //logo 路径
+    public static final String expertlogoPath = "/fundview/data/images/expert/logo/";
+    public static final String compLogoPath = "/fundview/data/images/comp/logo/";
+    public static final String achvLogoPath = "/fundview/data/images/achv/logo/";
+    public static final String requLogoPath = "/fundview/data/images/requ/logo/";
+    public static final String orgLogoPath = "/fundview/data/images/org/logo/";
+    public static final String productLogoPath = "/fundview/data/images/product/logo/";
+    public static final String fundviewImgPath = "/fundview/data/images/fundview/logo/";//宣传图片
+    public static final String fundviewInfoPath = "/fundview/data/images/fundview/infor/img/";//丰景咨询图片
 }

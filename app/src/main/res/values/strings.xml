@@ -9,6 +9,8 @@
     <string name="tab_second">资讯</string>
     <string name="tab_third">我的</string>
 
+    <string name="no_content">暂未填写</string>
+
     <string name="expert">专家</string>
     <string name="techrequ">需求</string>
     <string name="comp">企业</string>
@@ -16,6 +18,9 @@
     <string name="org">机构</string>
     <string name="product">产品</string>
     <string name="project">项目</string>
+
+    <string name="home_requ">悬赏需求</string>
+    <string name="home_achv">推荐成果</string>
 
     <string name="expertSearchHint">专家搜索</string>
     <string name="compSearchHint">企业搜索</string>
@@ -91,4 +96,6 @@
     <string name="picture_save_fail">保存图片失败</string>
     <string name="picture_next_album">下一组：</string>
     <string name="picture_previous_album">上一组：</string>
+    <string name="requ_price_label">拟投入:</string>
+    <string name="default_price">面议</string>
 </resources>

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import cn.fundview.R;
@@ -19,7 +20,7 @@ import cn.fundview.app.tool.PreferencesUtils;
 import cn.fundview.app.view.HomeTitleBar;
 import cn.jpush.android.api.JPushInterface;
 
-public class MainActivity  extends Activity {
+public class MainActivity  extends FragmentActivity {
 
     public static final int REQUEST_CODE_MY = 1212;// 从我的页面进行登录的请求码
     public static final int REQUEST_CODE_EXPERT = 1213;// 从关注的专家进行登录的请求码
@@ -51,19 +52,7 @@ public class MainActivity  extends Activity {
         Intent updateService = new Intent(this, UpdateService.class);
         this.bindService(updateService, conn, BIND_AUTO_CREATE);
         currIndex = 1;
-        showHomeView();
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
+//        showHomeView();
 
     }
 
@@ -77,12 +66,9 @@ public class MainActivity  extends Activity {
             activeView.setVisibility(View.GONE);
         }
 
-        activeView = this.findViewById(R.id.homeview);
-
-        activeView.setVisibility(View.VISIBLE);
-
-
-
+//        activeView = this.findViewById(R.id.homeview);
+//
+//        activeView.setVisibility(View.VISIBLE);
 
     }
 //    @Override

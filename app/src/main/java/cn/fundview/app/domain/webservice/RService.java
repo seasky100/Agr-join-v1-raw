@@ -37,6 +37,7 @@ import cn.fundview.app.domain.model.UserInfor;
 import cn.fundview.app.domain.webservice.util.Constants;
 import cn.fundview.app.tool.FileTools;
 import cn.fundview.app.tool.json.JSONTools;
+import cn.fundview.app.view.DownloadListener;
 import cn.fundview.app.view.UploadListener;
 
 /**
@@ -249,6 +250,7 @@ public class RService {
             return null;
         }
     }
+
     /**
      * 上传用户的头像信息
      **/
@@ -400,11 +402,12 @@ public class RService {
 
     /**
      * 异步加载图片并加载到ImageView
-     * @param url 需要加载的图片url
-     * @param destPath 存储的目标位置
-     * @param imageView 加载的imageView
+     *
+     * @param url              需要加载的图片url
+     * @param destPath         存储的目标位置
+     * @param downloadListener 文件下载监听器
      */
-    public static void downloadImgToImageView(String url, String destPath, ImageView imageView) {
+    public static void downloadImgToImageView(String url, String destPath, final DownloadListener downloadListener) {
 
         HttpUtils http = new HttpUtils();
         HttpHandler handler = http.download(url, destPath,
@@ -414,29 +417,88 @@ public class RService {
 
                     @Override
                     public void onStart() {
-                        //testTextView.setText("conn...");
+                        if (downloadListener != null) {
+
+                            downloadListener.start();
+                        }
                     }
 
                     @Override
                     public void onLoading(long total, long current, boolean isUploading) {
                         //testTextView.setText(current + "/" + total);
+                        if (downloadListener != null) {
+
+                            downloadListener.loading(total, current, isUploading);
+                        }
                     }
 
                     @Override
                     public void onSuccess(ResponseInfo<File> responseInfo) {
-                        //testTextView.setText("downloaded:" + responseInfo.result.getPath());
+                        if (downloadListener != null) {
+
+                            downloadListener.success(responseInfo.result);
+                        }
                     }
 
 
                     @Override
                     public void onFailure(HttpException error, String msg) {
                         //testTextView.setText(msg);
+                        if (downloadListener != null) {
+
+                            downloadListener.failure(error, msg);
+                        }
                     }
                 });
-//
-////调用cancel()方法停止下载
-//        handler.cancel();
+
     }
 
+    /**
+     * 异步加载图片并加载到ImageView ,不存储到本地
+     * @param url              需要加载的图片url
+     * @param downloadListener 文件下载监听器
+     */
+    public static void downloadImgToImageViewNoStore(String url, final DownloadListener downloadListener) {
 
+        HttpUtils http = new HttpUtils();
+        HttpHandler<InputStream> handler = http.send(HttpRequest.HttpMethod.GET, url, null,
+                new RequestCallBack<InputStream>() {
+
+                    @Override
+                    public void onStart() {
+                        if (downloadListener != null) {
+
+                            downloadListener.start();
+                        }
+                    }
+
+                    @Override
+                    public void onLoading(long total, long current, boolean isUploading) {
+                        //testTextView.setText(current + "/" + total);
+                        if (downloadListener != null) {
+
+                            downloadListener.loading(total, current, isUploading);
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(ResponseInfo<InputStream> responseInfo) {
+                        if (downloadListener != null) {
+
+                            downloadListener.success(responseInfo.result);
+                        }
+                    }
+
+
+                    @Override
+                    public void onFailure(HttpException error, String msg) {
+                        //testTextView.setText(msg);
+                        if (downloadListener != null) {
+
+                            downloadListener.failure(error, msg);
+                        }
+                    }
+                });
+
+    }
 }
