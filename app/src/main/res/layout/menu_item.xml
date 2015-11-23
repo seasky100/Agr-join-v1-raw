@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:clickable="false"
     android:layout_gravity="center_vertical">
-
     <LinearLayout
         android:id="@+id/menu_item_panel"
         android:layout_width="match_parent"

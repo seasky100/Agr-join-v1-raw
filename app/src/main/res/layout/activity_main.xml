@@ -39,4 +39,8 @@
             android:overScrollMode="never"
             android:visibility="gone" />
     </LinearLayout>
+    <cn.fundview.app.view.MenuBar
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>
