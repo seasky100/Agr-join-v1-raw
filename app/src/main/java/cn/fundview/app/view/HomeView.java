@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -23,10 +24,15 @@ import java.util.List;
 import java.util.Map;
 
 import cn.fundview.R;
+import cn.fundview.app.action.home.AchvListAction;
 import cn.fundview.app.action.home.RequListAction;
+import cn.fundview.app.domain.model.Achv;
 import cn.fundview.app.domain.model.Requ;
 import cn.fundview.app.domain.webservice.util.Constants;
+import cn.fundview.app.tool.adapter.AchvAdapter;
+import cn.fundview.app.tool.adapter.AchvLinearLayoutAdapter;
 import cn.fundview.app.tool.adapter.RequAdapter;
+import cn.fundview.app.tool.adapter.RequLinearLayoutAdapter;
 import cn.fundview.app.tool.adapter.SlideImgsAdapter;
 import cn.fundview.app.tool.PopUpWindow;
 import cn.fundview.app.tool.adapter.ListViewAdapter;
@@ -41,7 +47,7 @@ import cn.fundview.app.tool.adapter.ListViewAdapter;
  * 修改备注：
  */
 @SuppressLint("InflateParams")
-public class HomeView extends LinearLayout implements TitleBarListener, AsyncTaskCompleteListener{
+public class HomeView extends LinearLayout implements TitleBarListener, AsyncTaskCompleteListener {
 
     private Context context;
     private PopUpWindow popupWindow;
@@ -97,7 +103,7 @@ public class HomeView extends LinearLayout implements TitleBarListener, AsyncTas
         //加载滚动图片
         final ViewPager viewPager = (ViewPager) this.findViewById(R.id.imgs);
         final LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.indicator_panel);
-        for(int i = 0; i<imgs.size(); i++) {
+        for (int i = 0; i < imgs.size(); i++) {
 
             ImageView dot = new ImageView(context);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(15, 15);
@@ -113,12 +119,13 @@ public class HomeView extends LinearLayout implements TitleBarListener, AsyncTas
             linearLayout.addView(dot);
         }
 
-        viewPager.setAdapter(new SlideImgsAdapter(((FragmentActivity)context).getSupportFragmentManager(), imgs));
+        viewPager.setAdapter(new SlideImgsAdapter(((FragmentActivity) context).getSupportFragmentManager(), imgs));
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
             public void onPageSelected(final int position) {
@@ -142,7 +149,7 @@ public class HomeView extends LinearLayout implements TitleBarListener, AsyncTas
 
         //加载需求
         new RequListAction(context, Constants.GET_HOME_REQU_LIST_URL, this);
-
+        new AchvListAction(context, Constants.GET_HOME_ACHV_LIST_URL, this);
     }
 
 
@@ -233,15 +240,38 @@ public class HomeView extends LinearLayout implements TitleBarListener, AsyncTas
 
     @Override
     public void complete(int requestCode, int responseCode, Object msg) {
-        if(requestCode == 1) {
+        if (requestCode == 1) {
 
             //需求列表
-            if(msg != null) {
+            if (msg != null) {
+                LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.requlist);
+                List<Requ> list = (List<Requ>) msg;
+                if (list.size() > 0) {
+                    this.findViewById(R.id.requ).setVisibility(VISIBLE);
+                    RequAdapter adapter = new RequAdapter(context, list);
+                    RequLinearLayoutAdapter requLinearLayoutAdapter = new RequLinearLayoutAdapter(context,list,linearLayout);
+                    requLinearLayoutAdapter.init();
 
-                List<Requ> list = (List<Requ>)msg;
-                RequAdapter adapter = new RequAdapter(context, list);
-                ListView listView = (ListView) this.findViewById(R.id.requlist);
-                listView.setAdapter(adapter);
+                } else {
+
+                    this.findViewById(R.id.requ).setVisibility(GONE);
+                }
+            }
+        } else if (requestCode == 2) {
+            //成果列表
+            if (msg != null) {
+
+                List<Achv> list = (List<Achv>) msg;
+                LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.achvlist);
+                if (list.size() > 0) {
+                    this.findViewById(R.id.achv).setVisibility(VISIBLE);
+                    AchvAdapter adapter = new AchvAdapter(context, list);
+                    AchvLinearLayoutAdapter achvLinearLayoutAdapter = new AchvLinearLayoutAdapter(context, list,linearLayout);
+                    achvLinearLayoutAdapter.init();
+                } else {
+
+                    this.findViewById(R.id.achv).setVisibility(GONE);
+                }
             }
         }
     }

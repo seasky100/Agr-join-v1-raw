@@ -1,5 +1,6 @@
 package cn.fundview.app.domain.webservice;
 
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.lidroid.xutils.HttpUtils;
@@ -409,6 +410,7 @@ public class RService {
      */
     public static void downloadImgToImageView(String url, String destPath, final DownloadListener downloadListener) {
 
+        Log.d(cn.fundview.app.tool.Constants.TAG, destPath);
         HttpUtils http = new HttpUtils();
         HttpHandler handler = http.download(url, destPath,
                 true, // 如果目标文件存在，接着未完成的部分继续下载。服务器不支持RANGE时将从新下载。
@@ -444,6 +446,7 @@ public class RService {
                     @Override
                     public void onFailure(HttpException error, String msg) {
                         //testTextView.setText(msg);
+                        error.printStackTrace();
                         if (downloadListener != null) {
 
                             downloadListener.failure(error, msg);
@@ -453,52 +456,4 @@ public class RService {
 
     }
 
-    /**
-     * 异步加载图片并加载到ImageView ,不存储到本地
-     * @param url              需要加载的图片url
-     * @param downloadListener 文件下载监听器
-     */
-    public static void downloadImgToImageViewNoStore(String url, final DownloadListener downloadListener) {
-
-        HttpUtils http = new HttpUtils();
-        HttpHandler<InputStream> handler = http.send(HttpRequest.HttpMethod.GET, url, null,
-                new RequestCallBack<InputStream>() {
-
-                    @Override
-                    public void onStart() {
-                        if (downloadListener != null) {
-
-                            downloadListener.start();
-                        }
-                    }
-
-                    @Override
-                    public void onLoading(long total, long current, boolean isUploading) {
-                        //testTextView.setText(current + "/" + total);
-                        if (downloadListener != null) {
-
-                            downloadListener.loading(total, current, isUploading);
-                        }
-                    }
-
-                    @Override
-                    public void onSuccess(ResponseInfo<InputStream> responseInfo) {
-                        if (downloadListener != null) {
-
-                            downloadListener.success(responseInfo.result);
-                        }
-                    }
-
-
-                    @Override
-                    public void onFailure(HttpException error, String msg) {
-                        //testTextView.setText(msg);
-                        if (downloadListener != null) {
-
-                            downloadListener.failure(error, msg);
-                        }
-                    }
-                });
-
-    }
 }

@@ -1,207 +1,249 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:isScrollContainer="true"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:overScrollMode="always"
+    android:scrollbars="vertical">
 
     <!-- 首页图片轮播 -->
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@color/white">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/imgs"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="0dp" />
+            android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/indicator_panel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="bottom"
-            android:gravity="center"
-            android:layout_marginBottom="20dp"/>
-    </FrameLayout>
-
-    <!-- 各种对象的搜索入口 -->
-    <LinearLayout
-        android:id="@+id/search_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-
-            <ImageView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/shor01"
-                />
-            <TextView
+                android:layout_height="100dp"
+                android:background="@color/white">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/imgs"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp" />
+
+                <LinearLayout
+                    android:id="@+id/indicator_panel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:orientation="horizontal" />
+            </FrameLayout>
+
+            <!-- 各种对象的搜索入口 -->
+            <LinearLayout
+                android:id="@+id/search_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/comp"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                android:gravity="center"
-                android:layout_marginTop="3dp"
-                />
-        </LinearLayout>
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/shor02"
-                />
-            <TextView
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:scaleType="fitCenter"
+                        android:src="@mipmap/shor01" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="@string/comp"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:scaleType="fitCenter"
+                        android:src="@mipmap/shor02" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="@string/org"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:scaleType="fitCenter"
+                        android:src="@mipmap/shor03" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="@string/expert"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:scaleType="fitCenter"
+                        android:src="@mipmap/shor04" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="@string/techrequ"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:scaleType="fitCenter"
+                        android:src="@mipmap/shor05" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="@string/achv"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/requ"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/org"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                android:gravity="center"
-                android:layout_marginTop="3dp"
-                />
-        </LinearLayout>
+                android:layout_gravity="center_vertical|left"
+                android:background="@color/lightgrayeee"
+                android:orientation="horizontal"
+                android:paddingBottom="6dp"
+                android:paddingLeft="6dp"
+                android:paddingRight="3dp"
+                android:paddingTop="6dp">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/rewardre" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/shor03"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/expert"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                android:gravity="center"
-                android:layout_marginTop="3dp"
-                />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="6dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/home_requ"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            </LinearLayout>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/shor04"
-                />
-            <TextView
+            <LinearLayout
+                android:id="@+id/requlist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/techrequ"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                android:gravity="center"
-                android:layout_marginTop="3dp"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/shor05"
-                />
-            <TextView
+                android:orientation="vertical"></LinearLayout>
+            <!-- 热门成果-->
+            <LinearLayout
+                android:id="@+id/achv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/achv"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                android:gravity="center"
-                android:layout_marginTop="3dp"
-                />
+                android:layout_gravity="center_vertical|left"
+                android:background="@color/lightgrayeee"
+                android:orientation="horizontal"
+                android:paddingBottom="6dp"
+                android:paddingLeft="6dp"
+                android:paddingRight="3dp"
+                android:paddingTop="6dp">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/hotachv" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="6dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/home_achv"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/achvlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"></LinearLayout>
+
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/lightgrayeee"
-        android:paddingBottom="6dp"
-        android:paddingTop="6dp"
-        android:paddingLeft="6dp"
-        android:paddingRight="3dp"
-        android:layout_gravity="center_vertical|left"
-        >
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/rewardre"
-            android:scaleType="centerCrop"
-            android:background="@color/transparent"
-            />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="16sp"
-            android:layout_marginLeft="6dp"
-            android:gravity="center_vertical"
-            android:textColor="@color/black"
-            android:text="@string/home_requ"/>
-
-    </LinearLayout>
-    <ListView
-        android:id="@+id/requlist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="@color/azure"
-        android:fastScrollEnabled="false"
-        ></ListView>
+    </ScrollView>
 
 </LinearLayout>

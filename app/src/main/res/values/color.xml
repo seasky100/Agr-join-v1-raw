@@ -81,4 +81,5 @@
     <color name="requ_title">#31a864</color>
     <color name="lightgray">#a8a8a8</color>
     <color name="ff8000">#ff8000</color>
+    <color name="color565656">#565656</color>
 </resources>

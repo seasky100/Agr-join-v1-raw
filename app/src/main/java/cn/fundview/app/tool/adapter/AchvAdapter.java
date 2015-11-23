@@ -12,21 +12,22 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.fundview.R;
+import cn.fundview.app.domain.model.Achv;
 import cn.fundview.app.domain.model.Requ;
 import cn.fundview.app.tool.Constants;
 import cn.fundview.app.tool.StringUtils;
 import cn.fundview.app.tool.bitmap.BitmapItem;
 
 /**
- * 技术需求适配器
+ * 成果适配器
  */
-public class RequAdapter extends BaseAdapter {
+public class AchvAdapter extends BaseAdapter {
 
-    private List<Requ> dataSource;
+    private List<Achv> dataSource;
     private Context context;
     private LayoutInflater inflater;
 
-    public RequAdapter(Context context, List<Requ> dataSource) {
+    public AchvAdapter(Context context, List<Achv> dataSource) {
 
         this.context = context;
         this.dataSource = dataSource;
@@ -55,61 +56,61 @@ public class RequAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-        Requ requ = dataSource.get(position);
+        Achv achv = dataSource.get(position);
         if (convertView == null || convertView.getTag() != null) {          //只有数据加载完成后才能重新使用
-            convertView = inflater.inflate(R.layout.requ_item, null);
-            convertView.setTag(requ);
+            convertView = inflater.inflate(R.layout.achv_item, null);
+            convertView.setTag(achv);
         }
 
         //logo
         ImageView logo = (ImageView) convertView.findViewById(R.id.logo);   //logo
-        String url = requ.getLogo();
+        String url = achv.getLogo();
         String fileName = url.substring(url.lastIndexOf("/") + 1);
         Log.d(Constants.TAG, url + "|" + fileName);
-        BitmapItem bitmapItem = new BitmapItem(context, logo, requ.getLogo(), Constants.requLogoPath + requ.getId() + "/" + fileName, R.mipmap.company_logo);
+        BitmapItem bitmapItem = new BitmapItem(context, logo, achv.getLogo(), Constants.achvLogoPath + achv.getId() + "/" + fileName, R.mipmap.achv_default);
         bitmapItem.show();
 
         //title
         TextView title = (TextView) convertView.findViewById(R.id.title);
-        if(!StringUtils.isBlank(requ.getName())) {
+        if(!StringUtils.isBlank(achv.getName())) {
 
-            title.setText(requ.getName());
+            title.setText(achv.getName());
         }
 
         //生产环节
-        TextView hj =  (TextView) convertView.findViewById(R.id.hj);
-        if(!StringUtils.isBlank(requ.getHj())) {
+        TextView trade =  (TextView) convertView.findViewById(R.id.trade);
+        if(!StringUtils.isBlank(achv.getTradeName())) {
 
-            hj.setText("生产环节:" + requ.getHj());
+            trade.setText("应用行业:" + achv.getTradeName());
         }else {
 
-            hj.setText("生产环节:暂未填写");
+            trade.setText("应用行业:暂未填写");
         }
 
         //comp
-        TextView compView = (TextView) convertView.findViewById(R.id.compname);
+        TextView compView = (TextView) convertView.findViewById(R.id.ownername);
 
-        if(StringUtils.isBlank(requ.getOwnerName())) {
+        if(StringUtils.isBlank(achv.getOwnerName())) {
 
             compView.setText("暂未填写");
         }else {
 
-            compView.setText(requ.getOwnerName());
+            compView.setText(achv.getOwnerName());
         }
 
         //price
         TextView price = (TextView)convertView.findViewById(R.id.price);
-        if(requ.getFinPlan() <= 0) {
+        if(achv.getPrice() <= 0) {
 
             price.setText("面议");
         }else {
 
-            price.setText("￥" + requ.getFinPlan() + "万");
+            price.setText("￥" + achv.getPrice() + "万");
         }
         return convertView;
     }
 
-    public void dataChanged(List<Requ> dataSource) {
+    public void dataChanged(List<Achv> dataSource) {
 
         this.dataSource = dataSource;
         notifyDataSetChanged();
