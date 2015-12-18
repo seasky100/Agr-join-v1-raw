@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 import cn.fundview.app.action.AsyncAction;
+import cn.fundview.app.domain.dao.CompanyDao;
 import cn.fundview.app.domain.dao.DaoFactory;
-import cn.fundview.app.domain.dao.RequDao;
-import cn.fundview.app.domain.model.Requ;
+import cn.fundview.app.domain.model.Company;
 import cn.fundview.app.domain.webservice.RService;
 import cn.fundview.app.domain.webservice.util.Constants;
 import cn.fundview.app.model.ResultBean;
@@ -23,12 +23,13 @@ import cn.fundview.app.view.AsyncTaskCompleteListener;
 
 /**
  * Created by Administrator on 2015/11/23 0023.
+ * 首页 企业风采
  */
-public class RequListAction extends AsyncAction<ResultBean> {
+public class CompListAction extends AsyncAction<ResultBean> {
 
     private AsyncTaskCompleteListener listener;
 
-    public RequListAction(Context context, String url, AsyncTaskCompleteListener listener) {
+    public CompListAction(Context context, String url, AsyncTaskCompleteListener listener) {
 
         super(context, url);
 
@@ -58,8 +59,8 @@ public class RequListAction extends AsyncAction<ResultBean> {
     protected void onPostExecute(ResultBean t) {
         super.onPostExecute(t);
 
-        List<Requ> requList = null;
-        if (t != null && t.getStatus() == cn.fundview.app.domain.webservice.util.Constants.REQUEST_SUCCESS) {
+        List<Company> compList = null;
+        if (t != null && t.getStatus() == Constants.REQUEST_SUCCESS) {
 
             JSONObject jsonObject = JSON.parseObject(t.getResult());
             if (jsonObject != null) {
@@ -67,47 +68,44 @@ public class RequListAction extends AsyncAction<ResultBean> {
                 String jsonResult = jsonObject.getString("resultList");
                 if (!StringUtils.isBlank(jsonResult)) {
 
-                    requList = JSON.parseArray(jsonResult, Requ.class);
+                    compList = JSON.parseArray(jsonResult, Company.class);
                 }
             }
         }
 
-        RequDao requDao = DaoFactory.getInstance(context).getRequDao();
+        CompanyDao companyDao = DaoFactory.getInstance(context).getCompDao();
 
-        if (requList != null && requList.size() > 0) {
+        if (compList != null && compList.size() > 0) {
 
             //保存/更新成果
-            for (Requ item : requList) {
+            for (Company item : compList) {
 
-                Requ localRequ = requDao.getById(item.getId());
-                if (localRequ != null) {
+                Company localComp = companyDao.getById(item.getId());
+                if (localComp != null) {
 
                     //更新本地
-                    localRequ.setUpdateTime(item.getUpdateTime());
-                    if (localRequ.getLogo() != item.getLogo()) {
+                    localComp.setUpdateDate(item.getUpdateDate());
+                    localComp.setLogo(item.getLogo());
 
-                        //本地的logo 和服务端的logo 不一致的时候,更新logo
-                        item.setLogoLocalPath(localRequ.getLogo());
-                        localRequ.setLogoLocalPath(localRequ.getLogo());
-                        localRequ.setLogo(item.getLogo());
-                    }
-                    localRequ.setName(item.getName());
-                    localRequ.setFinPlan(item.getFinPlan());
-                    localRequ.setOwnerName(item.getOwnerName());
-                    localRequ.setTradeName(item.getTradeName());
-                    localRequ.setRecommend(1);//设置为推荐成果
-                    requDao.update(localRequ);//更新本地
+                    localComp.setName(item.getName());
+                    localComp.setAreaName(item.getAreaName());
+                    localComp.setName(item.getName());
+                    localComp.setTradeName(item.getTradeName());
+//                                    localItem.setLocalLogo(localItem.getLogo());//删除老图片的时候用
+                    localComp.setLogo(item.getLogo());
+                    localComp.setUpdateDate(item.getUpdateDate());
+                    companyDao.update(localComp);
                 } else {
 
-                    item.setRecommend(1);//设置为推荐成果
-                    requDao.save(item);//保存成果
+                    localComp.setRecommendNum(1);//设置为企业推荐值
+                    companyDao.save(item);//保存企业信息
                 }
             }
         } else {
 
-            requList = requDao.getRecommendList(4);
+            compList = companyDao.getRecommendList(2);
         }
 
-        listener.complete(1,Constants.REQUEST_SUCCESS,requList);
+        listener.complete(1,Constants.REQUEST_SUCCESS,compList);
     }
 }

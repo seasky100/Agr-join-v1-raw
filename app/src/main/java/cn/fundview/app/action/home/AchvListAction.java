@@ -12,13 +12,10 @@ import java.util.Map;
 import cn.fundview.app.action.AsyncAction;
 import cn.fundview.app.domain.dao.AchvDao;
 import cn.fundview.app.domain.dao.DaoFactory;
-import cn.fundview.app.domain.dao.RequDao;
 import cn.fundview.app.domain.model.Achv;
-import cn.fundview.app.domain.model.Requ;
 import cn.fundview.app.domain.webservice.RService;
 import cn.fundview.app.domain.webservice.util.Constants;
 import cn.fundview.app.model.ResultBean;
-import cn.fundview.app.model.ResultListBean;
 import cn.fundview.app.tool.NetWorkConfig;
 import cn.fundview.app.tool.StringUtils;
 import cn.fundview.app.tool.json.JSONTools;
@@ -44,7 +41,7 @@ public class AchvListAction extends AsyncAction<ResultBean> {
 
         //需求
         Map<String, String> param = new HashMap<>();
-        param.put("pageSize", "4");
+        param.put("pageSize", "2");
 
         if (NetWorkConfig.checkNetwork(context)) {
 

@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import cn.fundview.app.domain.model.Company;
+import cn.fundview.app.domain.model.Expert;
 import cn.fundview.app.domain.model.Product;
+import cn.fundview.app.domain.model.Requ;
 
 /**
  * 企业产品Dao
@@ -32,6 +34,74 @@ public class ProductDao extends BaseDao<Product> {
 
         return null;
     }
+    //根据关键字查询
+    public List<Product> getProductListByCondition(Map<String, String> map, int page, int pageSize) {
 
+        if (map != null) {
+
+            String key = map.get("searcher");
+            try {
+                return dbUtils.findAll(Selector.from(Product.class).where("name", "like", "%" + key + "%").
+                        orderBy("update_date", true).
+                        limit(pageSize).
+                        offset(pageSize * (page - 1)));
+            } catch (DbException e) {
+                e.printStackTrace();
+            }
+        } else {
+
+            try {
+                return dbUtils.findAll(Selector.from(Product.class).
+                        limit(pageSize).
+                        offset(pageSize * (page - 1)));
+            } catch (DbException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        return null;
+    }
+
+    /**
+     * 需求条件查询总数量
+     */
+    public long countProductByCondition(Map<String, String> map) {
+
+        if (map == null || map.size() == 0) {
+
+            try {
+                return dbUtils.count(Selector.from(Product.class));
+            } catch (DbException e) {
+                e.printStackTrace();
+            }
+
+            return 0;
+        }
+        String words = map.get("searcher");
+        try {
+            return dbUtils.count(Selector.from(Product.class).where("name", "like", "%" + words + "%"));
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    /**
+     * 查询推荐产品 根据更新时间排序
+     *
+     * @param size 查询的个数
+     * @return
+     */
+    public List<Product> getRecommendList(int size) {
+
+        try {
+            return dbUtils.findAll(Selector.from(Product.class).where("recommend", "=", 1).orderBy("updateDate", true).offset(0).limit(size));
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

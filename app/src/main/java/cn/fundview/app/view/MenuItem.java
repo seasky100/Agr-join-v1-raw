@@ -37,6 +37,7 @@ public class MenuItem extends LinearLayout {
         imgView = (ImageView) this.findViewById(R.id.menu_item_img);
         msgNoticeImgView = (ImageView) this.findViewById(R.id.msg_notice);
         txtView = (TextView) this.findViewById(R.id.menu_item_txt);
+
         String txt = "";
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.menuItem);
         txt = typedArray.getString(R.styleable.menuItem_itemTxt);
@@ -47,8 +48,8 @@ public class MenuItem extends LinearLayout {
         boolean selected = typedArray.getBoolean(R.styleable.menuItem_itemSelected, false);
         if (selected)
             setOnClickBg();
-        else
-            setOnUpBg();
+//        else
+//            setOnUpBg();
         typedArray.recycle();
     }
 

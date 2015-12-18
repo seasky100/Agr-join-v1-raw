@@ -5,7 +5,7 @@ public class Constants {
     /**
      * 服务器使用的地址
      **/
-//    public static final String SERVER = "http://192.168.1.118:8080/api";
+//    public static final String SERVER = "http://192.168.1.10:8080/app/api";
     public static final String SERVER = "http://m.fundview.cn/api/";
 
 
@@ -35,6 +35,17 @@ public class Constants {
      * 发送手机验证码.同时验证手机号码的唯一性
      */
     public static final String CHECK_PHONE_SEND_CODE = SERVER + "/account/check-phone-send-code.action";
+
+    /**
+     * 根据用户名 发送手机验证码.
+     */
+    public static final String FORGET_PASSWORD_SEND_CODE_URL = SERVER + "/account/sendPhoneCodeByAccount.action";
+
+    /**
+     * 根据用户名 修改密码
+     */
+    public static final String FORGET_PASSWORD_UPDATE_PASSWORD_URL = SERVER + "/account/updatePasswordByUsername.action";
+
 
     /**
      * 手机注册,用户名(手机号) 类型(1 企业  2 专家  3 个人)  密码
@@ -77,9 +88,26 @@ public class Constants {
     public static final String GET_HOME_ACHV_LIST_URL = SERVER + "/achv/recommend.action";
 
     /**
+     * 首页企业需求列表
+     **/
+    public static final String GET_HOME_COMPANY_LIST_URL = SERVER + "/company/recommend.action";
+
+    /**
+     * 首页专家需求列表
+     **/
+    public static final String GET_HOME_EXPERT_LIST_URL = SERVER + "/expert/recommend.action";
+
+    /**
+     * 首页产品需求列表
+     **/
+    public static final String GET_HOME_PRODUCT_LIST_URL = SERVER + "/product/recommend.action";
+
+
+    /**
      * 首页技术需求列表
      **/
     public static final String GET_HOME_REQU_LIST_URL = SERVER + "/requ/recommend.action";
+
 
 
     /**
@@ -110,16 +138,25 @@ public class Constants {
     public static final String GET_REQU_DETAIL = SERVER + "/requ/detail.action";
 
     /**
+     * 产品列表
+     */
+    public static final String GET_PRODUCT_LIST_URL = SERVER + "/product/list.action";
+    /**
      * 机构
      **/
     public static final String GET_ORG_DETAIL = SERVER + "/kyorg/detail.action";
     public static final String GET_ORG_LIST_URL = SERVER + "/kyorg/list.action";
 
     /**
+     * 融资项目
+     */
+    public static final String GET_FUND_PROJ_LIST_URL = SERVER + "/fund/list.action";
+    public static final String GET_FUND_PROJ_DETAIL_URL = SERVER + "/fund/detail.action";
+
+    /**
      * 成果/需求的收藏和取消收藏
      * 参数是 favoriteId,favoriteType,beFavoriteId,beFavoriteType
      */
-
     public static final String ADD_FAVORITE_URL = SERVER + "/account/favorite/add.action";
     public static final String CANCEL_FAVORITE_URL = SERVER + "/account/favorite/delete.action";
     public static final String FAVORITE_LIST_URL = SERVER + "/account/favorite/list.action";
@@ -132,6 +169,12 @@ public class Constants {
 
     public static final String GET_AREA_LIST = SERVER + "/util/queryAreaByParentId.action";
 
+
+    /**
+     * 安装/卸载统计url
+     */
+    public static final String INSTALL_COUNT_URL = SERVER + "/install/install.action";
+    public static final String UN_INSTALL_COUNT_URL = SERVER + "/install/uninstall.action";
     /************
      * 请求成功/失败返回值
      ******************/
@@ -147,6 +190,8 @@ public class Constants {
     public static final int COMPANY_ITEM_HEIGHT = 95;
     public static final int ACHV_ITEM_HEIGHT = 83;
     public static final int REQU_ITEM_HEIGHT = 83;
+    public static final int PRODUCT_ITEM_HEIGHT = 83;
     public static final int ORG_ITEM_HEIGHT = 65;//机构
+    public static final int PROJECT_ITEM_HEIGHT = 87;//融资项目
 
 }

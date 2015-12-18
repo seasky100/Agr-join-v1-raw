@@ -1,6 +1,5 @@
 package cn.fundview.app.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
@@ -9,7 +8,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
-import android.view.View;
+import android.view.KeyEvent;
 
 import cn.fundview.R;
 import cn.fundview.app.service.UpdateService;
@@ -18,24 +17,19 @@ import cn.fundview.app.tool.AppUtils;
 import cn.fundview.app.tool.Constants;
 import cn.fundview.app.tool.PreferencesUtils;
 import cn.fundview.app.view.HomeTitleBar;
-import cn.jpush.android.api.JPushInterface;
+import cn.fundview.app.view.HomeView;
+import cn.fundview.app.view.MenuBar;
 
 public class MainActivity  extends FragmentActivity {
-
-    public static final int REQUEST_CODE_MY = 1212;// 从我的页面进行登录的请求码
-    public static final int REQUEST_CODE_EXPERT = 1213;// 从关注的专家进行登录的请求码
-    public static final int REQUEST_CODE_COMP = 1214;// 从专注的企业进行登录的请求码
-    public static final int REQUEST_CODE_AUTO = 12312;//打开应用的时候 自动登录
-
-    private int currIndex = 1; // 标识当前在那个页面 1 项目 2 消息 3 我
 
     private UpdateService updateService;
 
     private AppUpdateConn conn = new AppUpdateConn();
 
-    private View activeView;    //当前view
+    private HomeView contentView;    //当前的内容view
 
-    private HomeTitleBar homeTitleBar;
+    private HomeTitleBar homeTitleBar;  //标题栏
+    private MenuBar menuBar;            //菜单栏
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,51 +39,25 @@ public class MainActivity  extends FragmentActivity {
 
         //标题栏
         homeTitleBar = (HomeTitleBar) this.findViewById(R.id.titleBar);
+        menuBar = (MenuBar) this.findViewById(R.id.menubar);
 
         //设置访问信息
         PreferencesUtils.putInt(this, Constants.FIRST_OPEN_TAG, 1);
         // 开启app的更新服务
         Intent updateService = new Intent(this, UpdateService.class);
         this.bindService(updateService, conn, BIND_AUTO_CREATE);
-        currIndex = 1;
-//        showHomeView();
-
     }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-    /**
-     * 显示首页view
-     */
-    private void showHomeView() {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
 
-        if(activeView != null) {
-
-            activeView.setVisibility(View.GONE);
+            exitSys();
+            return true;
+        } else {
+            return super.onKeyDown(keyCode, event);
         }
-
-//        activeView = this.findViewById(R.id.homeview);
-//
-//        activeView.setVisibility(View.VISIBLE);
-
     }
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//
-//        if (keyCode == KeyEvent.KEYCODE_BACK) {
-//
-//            if (currIndex == 1) {
-//
-//                exitSys();
-//            } else {
-//
-//                showHomePage();
-//            }
-//            return true;
-//        } else {
-//
-//
-//            return super.onKeyDown(keyCode, event);
-//        }
-//    }
 
 
 
@@ -106,7 +74,7 @@ public class MainActivity  extends FragmentActivity {
                         //清空登录状态
 //						PreferencesUtils.putInt(MainActivity.this, Constants.LOGIN_STATUS_KEY, Constants.LOGIN_OUT_STATUS);
 
-                        JPushInterface.stopPush(MainActivity.this);
+//                        JPushInterface.stopPush(MainActivity.this);
                         MainActivity.this.finish();
 
                         // 在进程中移除自己（用于程序自己重新启动）

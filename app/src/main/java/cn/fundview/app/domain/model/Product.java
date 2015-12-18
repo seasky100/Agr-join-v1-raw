@@ -3,6 +3,7 @@ package cn.fundview.app.domain.model;
 import com.lidroid.xutils.db.annotation.Column;
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 import com.lidroid.xutils.db.annotation.Table;
+import com.lidroid.xutils.db.annotation.Transient;
 
 /**
  * Created by Administrator on 2015/10/31 0031.
@@ -30,6 +31,18 @@ public class Product {
 
     @Column(column = "updateDate")
     private String updateDate;
+
+    @Column(column = "comp_name")
+    private String compName;
+
+    @Column(column = "price")
+    private double price;
+
+    @Column(column = "unit")
+    private String unit;
+
+    @Column(column = "recommend")
+    private int recommend;
 
     public int getId() {
         return id;
@@ -79,6 +92,38 @@ public class Product {
         this.updateDate = updateDate;
     }
 
+    public String getCompName() {
+        return compName;
+    }
+
+    public void setCompName(String compName) {
+        this.compName = compName;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public int getRecommend() {
+        return recommend;
+    }
+
+    public void setRecommend(int recommend) {
+        this.recommend = recommend;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -88,6 +133,10 @@ public class Product {
                 ", locaLogo='" + locaLogo + '\'' +
                 ", name='" + name + '\'' +
                 ", updateDate='" + updateDate + '\'' +
+                ", compName='" + compName + '\'' +
+                ", price=" + price +
+                ", unit='" + unit + '\'' +
+                ", recommend=" + recommend +
                 '}';
     }
 }

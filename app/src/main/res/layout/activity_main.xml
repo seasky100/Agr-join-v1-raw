@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fundview="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <cn.fundview.app.view.HomeTitleBar
@@ -9,38 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
+    <cn.fundview.app.view.HomeView
+        android:id="@+id/contentview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
         android:layout_weight="1"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:overScrollMode="never" />
 
-        <cn.fundview.app.view.HomeView
-            android:id="@+id/homeview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:overScrollMode="never" />
-
-        <cn.fundview.app.view.MsgListView
-            android:id="@+id/msgview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:overScrollMode="never"
-            android:visibility="gone" />
-
-        <cn.fundview.app.view.MyView
-            android:id="@+id/myview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:overScrollMode="never"
-            android:visibility="gone" />
-    </LinearLayout>
     <cn.fundview.app.view.MenuBar
-        android:id="@+id/tabs"
+        android:id="@+id/menubar"
+        fundview:selectIndex="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 </LinearLayout>
