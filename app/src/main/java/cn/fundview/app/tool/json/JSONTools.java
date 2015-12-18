@@ -72,10 +72,10 @@ public class JSONTools {
      */
     public static ResultBean parseResult(String jsonData) throws Exception {
 
+        ResultBean resultBean = new ResultBean();
         if (null != jsonData && !"".equals(jsonData)) {
-            JSONObject json = new JSONObject(jsonData);
-            ResultBean resultBean = new ResultBean();
 
+            JSONObject json = new JSONObject(jsonData);
             resultBean.setStatus(json.getInt("status"));
             resultBean.setMessage(json.getString("message"));
             if (json.getInt("status") == Constants.REQUEST_SUCCESS) {
@@ -88,12 +88,10 @@ public class JSONTools {
 
                     e.printStackTrace();
                     resultBean.setResult("");
-                    return resultBean;
                 }
             }
-            return resultBean;
         }
-        return null;
+        return resultBean;
     }
 
 

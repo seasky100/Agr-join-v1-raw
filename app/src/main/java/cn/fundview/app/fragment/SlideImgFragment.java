@@ -10,8 +10,7 @@ import android.widget.ImageView;
 
 import cn.fundview.R;
 import cn.fundview.app.tool.Constants;
-import cn.fundview.app.tool.DeviceConfig;
-import cn.fundview.app.tool.bitmap.BitmapItem;
+import cn.fundview.app.tool.bitmap.XUtilsImageLoader;
 
 /**
  * Created by Administrator on 2015/10/13 0013.
@@ -38,9 +37,8 @@ public class SlideImgFragment extends Fragment {
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 80);
         imageView.setLayoutParams(params);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-        BitmapItem item = new BitmapItem(this.getContext(), imageView, url, null, R.mipmap.banner_default);
-        item.show();
+        XUtilsImageLoader xUtilsImageLoader = new XUtilsImageLoader(this.getContext(),R.mipmap.banner_default);
+        xUtilsImageLoader.display(imageView, this.url);
         return imageView;
     }
 }

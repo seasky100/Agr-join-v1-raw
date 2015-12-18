@@ -1,10 +1,13 @@
 package cn.fundview.app.domain.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.annotation.JSONType;
 import com.lidroid.xutils.db.annotation.Column;
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 import com.lidroid.xutils.db.annotation.Table;
 import com.lidroid.xutils.db.annotation.Transient;
+
+import cn.fundview.app.model.Area;
 
 /**
  * 用户基本信息

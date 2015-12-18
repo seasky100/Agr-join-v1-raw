@@ -1,21 +1,13 @@
 package cn.fundview.app.view;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,13 +15,18 @@ import java.util.List;
 import java.util.Map;
 
 import cn.fundview.R;
+import cn.fundview.app.action.home.AchvListAction;
 import cn.fundview.app.action.home.RequListAction;
+import cn.fundview.app.domain.model.Achv;
 import cn.fundview.app.domain.model.Requ;
 import cn.fundview.app.domain.webservice.util.Constants;
-import cn.fundview.app.tool.adapter.RequAdapter;
-import cn.fundview.app.tool.adapter.SlideImgsAdapter;
 import cn.fundview.app.tool.PopUpWindow;
+import cn.fundview.app.tool.adapter.AchvAdapter;
+import cn.fundview.app.tool.adapter.AchvLinearLayoutAdapter;
 import cn.fundview.app.tool.adapter.ListViewAdapter;
+import cn.fundview.app.tool.adapter.RequAdapter;
+import cn.fundview.app.tool.adapter.RequLinearLayoutAdapter;
+import cn.fundview.app.tool.adapter.SlideImgsAdapter;
 
 /**
  * 类名称：HomeView
@@ -41,7 +38,7 @@ import cn.fundview.app.tool.adapter.ListViewAdapter;
  * 修改备注：
  */
 @SuppressLint("InflateParams")
-public class HomeView extends LinearLayout implements TitleBarListener, AsyncTaskCompleteListener{
+public class HomeView extends LinearLayout implements  AsyncTaskCompleteListener {
 
     private Context context;
     private PopUpWindow popupWindow;
@@ -97,7 +94,7 @@ public class HomeView extends LinearLayout implements TitleBarListener, AsyncTas
         //加载滚动图片
         final ViewPager viewPager = (ViewPager) this.findViewById(R.id.imgs);
         final LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.indicator_panel);
-        for(int i = 0; i<imgs.size(); i++) {
+        for (int i = 0; i < imgs.size(); i++) {
 
             ImageView dot = new ImageView(context);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(15, 15);
@@ -113,12 +110,13 @@ public class HomeView extends LinearLayout implements TitleBarListener, AsyncTas
             linearLayout.addView(dot);
         }
 
-        viewPager.setAdapter(new SlideImgsAdapter(((FragmentActivity)context).getSupportFragmentManager(), imgs));
+        viewPager.setAdapter(new SlideImgsAdapter(((FragmentActivity) context).getSupportFragmentManager(), imgs));
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
             public void onPageSelected(final int position) {
@@ -142,106 +140,44 @@ public class HomeView extends LinearLayout implements TitleBarListener, AsyncTas
 
         //加载需求
         new RequListAction(context, Constants.GET_HOME_REQU_LIST_URL, this);
-
+        new AchvListAction(context, Constants.GET_HOME_ACHV_LIST_URL, this);
     }
 
-
-    /**
-     * 覆盖父类中的实现,父类中是关闭窗口
-     */
-    @Override
-    public void onClickLeft() {
-        // TODO Auto-generated method stub
-        //titleBar
-        if (popupWindow != null) {
-
-            if (adapter != null) {
-
-                adapter.setSelectedIndex(selectedIndex);
-            }
-            popupWindow.toggle();
-
-            return;
-        } else {
-
-            View popupView = ((Activity) context).getLayoutInflater().inflate(R.layout.home_search_condition, null);
-
-            adapter = new ListViewAdapter(context, dataSource);
-            GridView gridview = (GridView) popupView.findViewById(R.id.home_condition_panel);
-            gridview.setSelector(getResources().getDrawable(R.drawable.search_condition_item));
-            gridview.setFocusable(true);
-            adapter.setSelectedIndex(selectedIndex);
-            gridview.setAdapter(adapter);
-            final TextView anchorTextView = homeTitleBar.getSearchType();
-            final EditText editText = homeTitleBar.getSearchEditText();
-            popupWindow = new PopUpWindow(context, popupView, homeTitleBar);
-
-            gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-                    // TODO Auto-generated method stub
-                    String value = dataSource.get(position).get("name");
-                    int type = Integer.parseInt(dataSource.get(position).get("key"));
-                    anchorTextView.setText(value);
-                    anchorTextView.setText(value);
-                    switch (type) {
-
-                        case 0:
-                            editText.setHint("专家搜索");
-                            break;
-                        case 1:
-                            editText.setHint("成果搜索");
-                            break;
-                        case 2:
-                            editText.setHint("企业搜索");
-                            break;
-                        case 3:
-                            editText.setHint("需求搜索");
-                            break;
-                        case 5:
-                            editText.setHint("产品搜索");
-                            break;
-                    }
-
-                    selectedIndex = position;
-                    HomeView.this.type = type;
-                    popupWindow.dismiss();
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onClickMiddle() {
-        // TODO Auto-generated method stub
-        //super.onClickEdit();
-//
-//        Intent intent = new Intent(context, SearchHistoryActivity.class);
-//
-//        intent.putExtra("type", Integer.parseInt(dataSource.get(selectedIndex).get("key")));
-//        context.startActivity(intent);
-    }
-
-    @Override
-    public void onClickRight() {
-
-//        Intent intent = new Intent(context, CaptureActivity.class);
-//        context.startActivity(intent);
-    }
 
     @Override
     public void complete(int requestCode, int responseCode, Object msg) {
-        if(requestCode == 1) {
+        if (requestCode == 1) {
 
             //需求列表
-            if(msg != null) {
+            if (msg != null) {
+                LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.requlist);
+                List<Requ> list = (List<Requ>) msg;
+                if (list.size() > 0) {
+                    this.findViewById(R.id.requ).setVisibility(VISIBLE);
+                    RequAdapter adapter = new RequAdapter(context, list);
+                    RequLinearLayoutAdapter requLinearLayoutAdapter = new RequLinearLayoutAdapter(context,list,linearLayout);
+                    requLinearLayoutAdapter.init();
 
-                List<Requ> list = (List<Requ>)msg;
-                RequAdapter adapter = new RequAdapter(context, list);
-                ListView listView = (ListView) this.findViewById(R.id.requlist);
-                listView.setAdapter(adapter);
+                } else {
+
+                    this.findViewById(R.id.requ).setVisibility(GONE);
+                }
+            }
+        } else if (requestCode == 2) {
+            //成果列表
+            if (msg != null) {
+
+                List<Achv> list = (List<Achv>) msg;
+                LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.achvlist);
+                if (list.size() > 0) {
+                    this.findViewById(R.id.achv).setVisibility(VISIBLE);
+                    AchvAdapter adapter = new AchvAdapter(context, list);
+                    AchvLinearLayoutAdapter achvLinearLayoutAdapter = new AchvLinearLayoutAdapter(context, list,linearLayout);
+                    achvLinearLayoutAdapter.init();
+                } else {
+
+                    this.findViewById(R.id.achv).setVisibility(GONE);
+                }
             }
         }
     }

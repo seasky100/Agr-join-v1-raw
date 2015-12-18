@@ -8,6 +8,9 @@ public class MsgListView extends ListView {
 
     public MsgListView(final Context context, AttributeSet attrs) {
         super(context, attrs);
+
+
+
     }
 
 }

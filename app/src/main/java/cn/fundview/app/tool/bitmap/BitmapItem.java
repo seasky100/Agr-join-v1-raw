@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.lidroid.xutils.BitmapUtils;
@@ -38,8 +39,10 @@ public class BitmapItem implements DownloadListener{
         this.context = context;
         this.imageView = imageView;
         this.url = url;
-        this.destPath = destPath;
+        this.destPath = DeviceConfig.getSysPath(context) + (destPath==null?"":destPath);
         this.defaultImgId = defaultImgId;
+        Log.d("aaaaaaaaaaaaaaaaaaaa", destPath);
+        Log.d("aaaaaaaaaaaaaaaaaaaa", url);
     }
 
     public void show() {
@@ -49,16 +52,13 @@ public class BitmapItem implements DownloadListener{
             File file = new File(destPath);
             if(file.exists()) {
 
-                if(temp != null && !temp.isRecycled()) {
-
-                    temp.recycle();
-                }
                 temp = BitmapFactory.decodeFile(destPath);
                 imageView.setImageBitmap(temp);
+                imageView.setTag(null);
             }else {
 
                 //下载图片到本地然后显示
-                RService.downloadImgToImageView(url, DeviceConfig.getSysPath(context) + destPath, this);
+                RService.downloadImgToImageView(url, destPath, this);
             }
         }else {
 
@@ -75,6 +75,7 @@ public class BitmapItem implements DownloadListener{
         LogUtils.d("start...");
         temp = BitmapFactory.decodeResource(context.getResources(),defaultImgId);
         this.imageView.setImageBitmap(temp);
+        imageView.setTag("");
     }
 
     @Override
@@ -87,19 +88,18 @@ public class BitmapItem implements DownloadListener{
     public void success(Object object) {
 
         LogUtils.d("success...");
-        if(temp != null && !temp.isRecycled()) {
+        Log.d(Constants.TAG, object.getClass().getName());
+        if(temp != null && !temp.isRecycled() ) {
 
-            this.imageView.setImageBitmap(null);
             temp.recycle();
         }
-
         if(object instanceof File) {
 
             LogUtils.d("fileloading   filePath = " + ((File) object).getAbsolutePath());
-            temp = BitmapFactory.decodeFile(((File) object).getAbsolutePath());
+            temp = BitmapFactory.decodeFile(((File) object).getPath());
         }
-
         this.imageView.setImageBitmap(temp);
+        imageView.setTag(null);
     }
 
     @Override

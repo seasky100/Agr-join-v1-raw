@@ -14,10 +14,12 @@ import java.io.Serializable;
 @Table(name = "t_search_history")
 public class SearchHistory extends EntityBase {
 
-    public static final int EXPERT_HISTORY = 1;
+    public static final int EXPERT_HISTORY = 0;
     public static final int COMPANY_HISTORY = 2;
-    public static final int ACHV_HISTORY = 3;
-    public static final int REQU_HISTORY = 4;
+    public static final int ACHV_HISTORY = 1;
+    public static final int REQU_HISTORY = 3;
+    public static final int ORG_HISTORY = 4;
+    public static final int PRODUCT_HISTORY = 5;
 
     @Unique
     @Column(column = "words")

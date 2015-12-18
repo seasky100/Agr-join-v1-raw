@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fundview="http://schemas.android.com/apk/res-auto"
-    style="@style/test"
     android:layout_width="match_parent"
     android:layout_height="44dp"
     android:background="@color/white"
@@ -13,13 +12,12 @@
         android:background="@color/menu_top_border" />
 
     <LinearLayout
-        style="@style/test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <cn.fundview.app.view.MenuItem
-            android:id="@+id/proj_item"
+            android:id="@+id/home_item"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
