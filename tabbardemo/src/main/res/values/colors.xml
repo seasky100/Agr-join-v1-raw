@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1cae42</color><!-- actionBar 背景色 -->
+    <color name="colorPrimaryDark">#1cae42</color><!--状态栏颜色-->
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- 透明 -->
+    <color name="transparent_background">#00000000</color>
+
+    <!-- 白色 -->
+    <color name="white">#ffffff</color>
+
+    <!-- 灰色 -->
+    <color name="grey">#808080</color>
+
+    <!-- 黑色 -->
+    <color name="black">#000000</color>
+
+    <!--天蓝色 -->
+    <color name="azure">#f0ffff</color>
+
+    <!-- 黄绿色 -->
+    <color name="chartreuse">#7fff00</color>
+</resources>

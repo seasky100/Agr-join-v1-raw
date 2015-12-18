@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">科企对接</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
@@ -47,8 +46,8 @@
     <string name="title_activity_my_note">MyNoteActivity</string>
     <string name="title_activity_my_note_infor">MyNoteInforActivity</string>
     <string name="title_activity_photo_preview">PhotoPreviewActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="dummy_button" translatable="false">Dummy Button</string>
+    <string name="dummy_content" translatable="false">DUMMY\nCONTENT</string>
     <string name="title_activity_take_photo">TakePhotoActivity</string>
     <string name="expert_tab">热门专家</string>
     <string name="comp_tab">热门企业</string>
