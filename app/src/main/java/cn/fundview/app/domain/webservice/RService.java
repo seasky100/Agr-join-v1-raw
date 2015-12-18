@@ -2,6 +2,7 @@ package cn.fundview.app.domain.webservice;
 
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.ResponseStream;
@@ -42,6 +43,7 @@ import cn.fundview.app.domain.webservice.util.Constants;
 import cn.fundview.app.tool.FileTools;
 import cn.fundview.app.tool.StringUtils;
 import cn.fundview.app.tool.json.JSONTools;
+import cn.fundview.app.view.DownloadListener;
 import cn.fundview.app.view.UploadListener;
 
 /**
@@ -401,32 +403,104 @@ public class RService {
     }
 
     /**
-     * 发送异步异步请求
-     * @param url
+     * 异步加载图片并加载到ImageView
+     *
+     * @param url              需要加载的图片url
+     * @param destPath         存储的目标位置
+     * @param downloadListener 文件下载监听器
      */
-    public static void doAsync(String url) {
+    public static void downloadImgToImageView(String url, String destPath, final DownloadListener downloadListener) {
 
         HttpUtils http = new HttpUtils();
-        http.send(HttpRequest.HttpMethod.POST,url,
-        new RequestCallBack(){
-            @Override
-            public void onLoading(long total, long current, boolean isUploading) {
-//                testTextView.setText(current + / + total);
-            }
+        HttpHandler handler = http.download(url, destPath,
+                true, // 如果目标文件存在，接着未完成的部分继续下载。服务器不支持RANGE时将从新下载。
+                true, // 如果从请求返回信息中获取到文件名，下载完成后自动重命名。
+                new RequestCallBack<File>() {
 
-            @Override
-            public void onSuccess(ResponseInfo responseInfo) {
-//                textView.setText(responseInfo.result);
-            }
+                    @Override
+                    public void onStart() {
+                        if (downloadListener != null) {
 
-            @Override
-            public void onStart() {
-            }
+                            downloadListener.start();
+                        }
+                    }
 
-            @Override
-            public void onFailure(HttpException error, String msg) {
-            }
-        });
+                    @Override
+                    public void onLoading(long total, long current, boolean isUploading) {
+                        //testTextView.setText(current + "/" + total);
+                        if (downloadListener != null) {
+
+                            downloadListener.loading(total, current, isUploading);
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(ResponseInfo<File> responseInfo) {
+                        if (downloadListener != null) {
+
+                            downloadListener.success(responseInfo.result);
+                        }
+                    }
+
+
+                    @Override
+                    public void onFailure(HttpException error, String msg) {
+                        //testTextView.setText(msg);
+                        if (downloadListener != null) {
+
+                            downloadListener.failure(error, msg);
+                        }
+                    }
+                });
+
+    }
+
+    /**
+     * 异步加载图片并加载到ImageView ,不存储到本地
+     * @param url              需要加载的图片url
+     * @param downloadListener 文件下载监听器
+     */
+    public static void downloadImgToImageViewNoStore(String url, final DownloadListener downloadListener) {
+
+        HttpUtils http = new HttpUtils();
+        HttpHandler<InputStream> handler = http.send(HttpRequest.HttpMethod.GET, url, null,
+                new RequestCallBack<InputStream>() {
+
+                    @Override
+                    public void onStart() {
+                        if (downloadListener != null) {
+
+                            downloadListener.start();
+                        }
+                    }
+
+                    @Override
+                    public void onLoading(long total, long current, boolean isUploading) {
+                        //testTextView.setText(current + "/" + total);
+                        if (downloadListener != null) {
+
+                            downloadListener.loading(total, current, isUploading);
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(ResponseInfo<InputStream> responseInfo) {
+                        if (downloadListener != null) {
+
+                            downloadListener.success(responseInfo.result);
+                        }
+                    }
+
+
+                    @Override
+                    public void onFailure(HttpException error, String msg) {
+                        //testTextView.setText(msg);
+                        if (downloadListener != null) {
+
+                            downloadListener.failure(error, msg);
+                        }
+                    }
+                });
 
     }
 }
