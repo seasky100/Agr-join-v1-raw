@@ -41,8 +41,6 @@ public class BitmapItem implements DownloadListener{
         this.url = url;
         this.destPath = DeviceConfig.getSysPath(context) + (destPath==null?"":destPath);
         this.defaultImgId = defaultImgId;
-        Log.d("aaaaaaaaaaaaaaaaaaaa", destPath);
-        Log.d("aaaaaaaaaaaaaaaaaaaa", url);
     }
 
     public void show() {

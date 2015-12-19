@@ -19,7 +19,11 @@
     <string name="project">项目</string>
 
     <string name="home_requ">悬赏需求</string>
-    <string name="home_achv">推荐成果</string>
+    <string name="home_achv">热门成果</string>
+    <string name="home_comp">企业风采</string>
+    <string name="home_expert">专家资源</string>
+    <string name="home_product">最新产品</string>
+    <string name="home_proj">融资项目</string>
 
     <string name="expertSearchHint">专家搜索</string>
     <string name="compSearchHint">企业搜索</string>
