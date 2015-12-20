@@ -1,9 +1,7 @@
 package cn.fundview.app.action.home;
 
 import android.content.Context;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +13,8 @@ import cn.fundview.app.domain.dao.DaoFactory;
 import cn.fundview.app.domain.model.Company;
 import cn.fundview.app.domain.webservice.RService;
 import cn.fundview.app.domain.webservice.util.Constants;
-import cn.fundview.app.model.ResultBean;
+import cn.fundview.app.model.ResultListBean;
 import cn.fundview.app.tool.NetWorkConfig;
-import cn.fundview.app.tool.StringUtils;
 import cn.fundview.app.tool.json.JSONTools;
 import cn.fundview.app.view.AsyncTaskCompleteListener;
 
@@ -25,8 +22,9 @@ import cn.fundview.app.view.AsyncTaskCompleteListener;
  * Created by Administrator on 2015/11/23 0023.
  * 首页 企业风采
  */
-public class CompListAction extends AsyncAction<ResultBean> {
+public class CompListAction extends AsyncAction<ResultListBean> {
 
+    private static final String TAG = CompListAction.class.getName();
     private AsyncTaskCompleteListener listener;
 
     public CompListAction(Context context, String url, AsyncTaskCompleteListener listener) {
@@ -38,7 +36,7 @@ public class CompListAction extends AsyncAction<ResultBean> {
 
 
     @Override
-    protected ResultBean doInBackground(String... params) {
+    protected ResultListBean doInBackground(String... params) {
 
         //需求
         Map<String, String> paramRequ = new HashMap<>();
@@ -47,36 +45,27 @@ public class CompListAction extends AsyncAction<ResultBean> {
         if (NetWorkConfig.checkNetwork(context)) {
 
             try {
-               return  JSONTools.parseResult(RService.doPostSync(paramRequ, params[0]));
+
+                String json = RService.doPostSync(paramRequ, params[0]);
+                Log.e("json = " , json);
+              return  JSONTools.parseList(json, Company.class);
             } catch (Exception e1) {
                 e1.printStackTrace();
+                Log.e(TAG, e1.toString());
             }
         }
         return null;
     }
 
     @Override
-    protected void onPostExecute(ResultBean t) {
+    protected void onPostExecute(ResultListBean t) {
         super.onPostExecute(t);
 
         List<Company> compList = null;
-        if (t != null && t.getStatus() == Constants.REQUEST_SUCCESS) {
-
-            JSONObject jsonObject = JSON.parseObject(t.getResult());
-            if (jsonObject != null) {
-
-                String jsonResult = jsonObject.getString("resultList");
-                if (!StringUtils.isBlank(jsonResult)) {
-
-                    compList = JSON.parseArray(jsonResult, Company.class);
-                }
-            }
-        }
-
         CompanyDao companyDao = DaoFactory.getInstance(context).getCompDao();
+        if (t != null && t.getList() != null && t.getList().size() > 0) {
 
-        if (compList != null && compList.size() > 0) {
-
+            compList = t.getList();
             //保存/更新成果
             for (Company item : compList) {
 
@@ -91,13 +80,12 @@ public class CompListAction extends AsyncAction<ResultBean> {
                     localComp.setAreaName(item.getAreaName());
                     localComp.setName(item.getName());
                     localComp.setTradeName(item.getTradeName());
-//                                    localItem.setLocalLogo(localItem.getLogo());//删除老图片的时候用
                     localComp.setLogo(item.getLogo());
                     localComp.setUpdateDate(item.getUpdateDate());
                     companyDao.update(localComp);
                 } else {
 
-                    localComp.setRecommendNum(1);//设置为企业推荐值
+                    item.setRecommendNum(1);//设置为企业推荐值
                     companyDao.save(item);//保存企业信息
                 }
             }
@@ -106,6 +94,6 @@ public class CompListAction extends AsyncAction<ResultBean> {
             compList = companyDao.getRecommendList(2);
         }
 
-        listener.complete(1,Constants.REQUEST_SUCCESS,compList);
+        listener.complete(3,Constants.REQUEST_SUCCESS,compList);
     }
 }

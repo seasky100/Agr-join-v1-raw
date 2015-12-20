@@ -16,13 +16,19 @@ import java.util.Map;
 
 import cn.fundview.R;
 import cn.fundview.app.action.home.AchvListAction;
+import cn.fundview.app.action.home.CompListAction;
+import cn.fundview.app.action.home.ExpertListAction;
 import cn.fundview.app.action.home.RequListAction;
 import cn.fundview.app.domain.model.Achv;
+import cn.fundview.app.domain.model.Company;
+import cn.fundview.app.domain.model.Expert;
 import cn.fundview.app.domain.model.Requ;
 import cn.fundview.app.domain.webservice.util.Constants;
 import cn.fundview.app.tool.PopUpWindow;
 import cn.fundview.app.tool.adapter.AchvAdapter;
 import cn.fundview.app.tool.adapter.AchvLinearLayoutAdapter;
+import cn.fundview.app.tool.adapter.CompLinearLayoutAdapter;
+import cn.fundview.app.tool.adapter.ExpertLinearLayoutAdapter;
 import cn.fundview.app.tool.adapter.ListViewAdapter;
 import cn.fundview.app.tool.adapter.RequAdapter;
 import cn.fundview.app.tool.adapter.RequLinearLayoutAdapter;
@@ -141,6 +147,8 @@ public class HomeView extends LinearLayout implements  AsyncTaskCompleteListener
         //加载需求
         new RequListAction(context, Constants.GET_HOME_REQU_LIST_URL, this);
         new AchvListAction(context, Constants.GET_HOME_ACHV_LIST_URL, this);
+        new CompListAction(context, Constants.GET_HOME_COMPANY_LIST_URL, this);
+        new ExpertListAction(context, Constants.GET_HOME_EXPERT_LIST_URL, this);
     }
 
 
@@ -177,6 +185,36 @@ public class HomeView extends LinearLayout implements  AsyncTaskCompleteListener
                 } else {
 
                     this.findViewById(R.id.achv).setVisibility(GONE);
+                }
+            }
+        }else if (requestCode == 3) {
+            //首页企业列表
+            if (msg != null) {
+
+                List<Company> list = (List<Company>) msg;
+                LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.compList);
+                if (list.size() > 0) {
+                    this.findViewById(R.id.compList).setVisibility(VISIBLE);
+                    CompLinearLayoutAdapter compLinearLayoutAdapter = new CompLinearLayoutAdapter(context, list,linearLayout);
+                    compLinearLayoutAdapter.init();
+                } else {
+
+                    this.findViewById(R.id.compList).setVisibility(GONE);
+                }
+            }
+        }else if (requestCode == 4) {
+            //首页专家列表
+            if (msg != null) {
+
+                List<Expert> list = (List<Expert>) msg;
+                LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.expertList);
+                if (list.size() > 0) {
+                    this.findViewById(R.id.expertList).setVisibility(VISIBLE);
+                    ExpertLinearLayoutAdapter expertLinearLayoutAdapter = new ExpertLinearLayoutAdapter(context, list,linearLayout);
+                    expertLinearLayoutAdapter.init();
+                } else {
+
+                    this.findViewById(R.id.expertList).setVisibility(GONE);
                 }
             }
         }

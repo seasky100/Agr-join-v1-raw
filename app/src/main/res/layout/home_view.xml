@@ -84,30 +84,6 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:scaleType="fitCenter"
-                        android:src="@mipmap/shor02" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:gravity="center"
-                        android:singleLine="true"
-                        android:text="@string/org"
-                        android:textColor="@color/black"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:scaleType="fitCenter"
                         android:src="@mipmap/shor03" />
 
                     <TextView
@@ -168,6 +144,54 @@
                         android:textColor="@color/black"
                         android:textSize="12sp" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:scaleType="fitCenter"
+                        android:src="@mipmap/shor07" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="@string/product"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:scaleType="fitCenter"
+                        android:src="@mipmap/shor08" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="@string/project"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <!-- 企业风采 -->
@@ -188,7 +212,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/qiye" />
+                    android:src="@mipmap/home_qiye" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -197,8 +221,8 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/home_comp"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textColor="@color/color565656"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -228,7 +252,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/zhuanjia" />
+                    android:src="@mipmap/home_zhuanjia" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -237,8 +261,8 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/home_expert"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textColor="@color/color565656"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -268,7 +292,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/rewardre" />
+                    android:src="@mipmap/home_requ" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -277,8 +301,8 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/home_requ"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textColor="@color/color565656"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -308,7 +332,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/hotachv" />
+                    android:src="@mipmap/home_achv" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -317,8 +341,8 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/home_achv"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textColor="@color/color565656"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -346,7 +370,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/chanpin" />
+                    android:src="@mipmap/home_chanpin" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -355,8 +379,8 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/home_product"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textColor="@color/color565656"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -384,7 +408,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/rongzi" />
+                    android:src="@mipmap/home_rongzi" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -393,8 +417,8 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/home_proj"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textColor="@color/color565656"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
