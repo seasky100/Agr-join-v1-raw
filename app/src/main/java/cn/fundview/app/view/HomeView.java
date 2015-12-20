@@ -6,8 +6,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,20 +21,23 @@ import cn.fundview.R;
 import cn.fundview.app.action.home.AchvListAction;
 import cn.fundview.app.action.home.CompListAction;
 import cn.fundview.app.action.home.ExpertListAction;
+import cn.fundview.app.action.home.FundProjListAction;
+import cn.fundview.app.action.home.ProductListAction;
 import cn.fundview.app.action.home.RequListAction;
 import cn.fundview.app.domain.model.Achv;
 import cn.fundview.app.domain.model.Company;
 import cn.fundview.app.domain.model.Expert;
+import cn.fundview.app.domain.model.Product;
 import cn.fundview.app.domain.model.Requ;
 import cn.fundview.app.domain.webservice.util.Constants;
+import cn.fundview.app.model.FundProject;
 import cn.fundview.app.tool.PopUpWindow;
-import cn.fundview.app.tool.adapter.AchvAdapter;
-import cn.fundview.app.tool.adapter.AchvLinearLayoutAdapter;
-import cn.fundview.app.tool.adapter.CompLinearLayoutAdapter;
-import cn.fundview.app.tool.adapter.ExpertLinearLayoutAdapter;
-import cn.fundview.app.tool.adapter.ListViewAdapter;
+import cn.fundview.app.tool.adapter.AchvListAdapter;
+import cn.fundview.app.tool.adapter.CompListAdapter;
+import cn.fundview.app.tool.adapter.ExpertListAdapter;
+import cn.fundview.app.tool.adapter.ProductListAdapter;
+import cn.fundview.app.tool.adapter.ProjListAdapter;
 import cn.fundview.app.tool.adapter.RequAdapter;
-import cn.fundview.app.tool.adapter.RequLinearLayoutAdapter;
 import cn.fundview.app.tool.adapter.SlideImgsAdapter;
 
 /**
@@ -44,13 +50,12 @@ import cn.fundview.app.tool.adapter.SlideImgsAdapter;
  * 修改备注：
  */
 @SuppressLint("InflateParams")
-public class HomeView extends LinearLayout implements  AsyncTaskCompleteListener {
+public class HomeView extends LinearLayout implements AsyncTaskCompleteListener/*, AdapterView.OnItemClickListener*/ {
 
+    private static final String TAG = HomeView.class.getName();
     private Context context;
     private PopUpWindow popupWindow;
     private int selectedIndex = 0;//当前选中的下标索引
-    private ListViewAdapter adapter;
-
     private HomeTitleBar homeTitleBar;
     private int type;
 
@@ -149,6 +154,8 @@ public class HomeView extends LinearLayout implements  AsyncTaskCompleteListener
         new AchvListAction(context, Constants.GET_HOME_ACHV_LIST_URL, this);
         new CompListAction(context, Constants.GET_HOME_COMPANY_LIST_URL, this);
         new ExpertListAction(context, Constants.GET_HOME_EXPERT_LIST_URL, this);
+        new ProductListAction(context, Constants.GET_HOME_PRODUCT_LIST_URL, this);
+        new FundProjListAction(context, Constants.GET_FUND_PROJ_LIST_URL, this);
     }
 
 
@@ -158,65 +165,158 @@ public class HomeView extends LinearLayout implements  AsyncTaskCompleteListener
 
             //需求列表
             if (msg != null) {
-                LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.requlist);
+                ListView requListView = (ListView) this.findViewById(R.id.requList);
                 List<Requ> list = (List<Requ>) msg;
                 if (list.size() > 0) {
                     this.findViewById(R.id.requ).setVisibility(VISIBLE);
-                    RequAdapter adapter = new RequAdapter(context, list);
-                    RequLinearLayoutAdapter requLinearLayoutAdapter = new RequLinearLayoutAdapter(context,list,linearLayout);
-                    requLinearLayoutAdapter.init();
+                    this.findViewById(R.id.requList).setVisibility(VISIBLE);
+                    RequAdapter requAdapter = new RequAdapter(context, list);
+                    requListView.setAdapter(requAdapter);
+                    ViewGroup.LayoutParams params = requListView.getLayoutParams();
+                    View listItem = requAdapter.getView(0, null, requListView);
+                    listItem.measure(0, 0);
+                    params.height = listItem.getMeasuredHeight() * list.size() + (requListView.getDividerHeight()) * list.size(); //假设你那“更多”的View高为50
+                    requListView.setLayoutParams(params);
 
-                } else {
-
-                    this.findViewById(R.id.requ).setVisibility(GONE);
+                    //绑定事件
+//                    requListView.setOnItemClickListener(this);
+                    return;
                 }
             }
+            this.findViewById(R.id.requ).setVisibility(GONE);
+            this.findViewById(R.id.requList).setVisibility(GONE);
         } else if (requestCode == 2) {
             //成果列表
             if (msg != null) {
 
                 List<Achv> list = (List<Achv>) msg;
-                LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.achvlist);
+                ListView achvListView = (ListView) this.findViewById(R.id.achvList);
                 if (list.size() > 0) {
                     this.findViewById(R.id.achv).setVisibility(VISIBLE);
-                    AchvAdapter adapter = new AchvAdapter(context, list);
-                    AchvLinearLayoutAdapter achvLinearLayoutAdapter = new AchvLinearLayoutAdapter(context, list,linearLayout);
-                    achvLinearLayoutAdapter.init();
-                } else {
+                    this.findViewById(R.id.achvList).setVisibility(VISIBLE);
+                    AchvListAdapter achvAdapter = new AchvListAdapter(context, list);
 
-                    this.findViewById(R.id.achv).setVisibility(GONE);
+                    achvListView.setAdapter(achvAdapter);
+                    ViewGroup.LayoutParams params = achvListView.getLayoutParams();
+                    View listItem = achvAdapter.getView(0, null, achvListView);
+                    listItem.measure(0, 0);
+                    params.height = listItem.getMeasuredHeight() * list.size() + (achvListView.getDividerHeight()) * list.size(); //假设你那“更多”的View高为50
+                    achvListView.setLayoutParams(params);
+
+                    //绑定事件
+//                    achvListView.setOnItemClickListener(this);
+                    return;
                 }
             }
-        }else if (requestCode == 3) {
+            this.findViewById(R.id.achv).setVisibility(GONE);
+            this.findViewById(R.id.achvList).setVisibility(GONE);
+        } else if (requestCode == 3) {
             //首页企业列表
             if (msg != null) {
 
                 List<Company> list = (List<Company>) msg;
-                LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.compList);
+                ListView compListView = (ListView) this.findViewById(R.id.compList);
                 if (list.size() > 0) {
-                    this.findViewById(R.id.compList).setVisibility(VISIBLE);
-                    CompLinearLayoutAdapter compLinearLayoutAdapter = new CompLinearLayoutAdapter(context, list,linearLayout);
-                    compLinearLayoutAdapter.init();
-                } else {
 
-                    this.findViewById(R.id.compList).setVisibility(GONE);
+                    this.findViewById(R.id.compList).setVisibility(VISIBLE);
+                    this.findViewById(R.id.comp).setVisibility(VISIBLE);
+                    CompListAdapter compListAdapter = new CompListAdapter(context, list);
+
+                    compListView.setAdapter(compListAdapter);
+                    ViewGroup.LayoutParams params = compListView.getLayoutParams();
+                    View listItem = compListAdapter.getView(0, null, compListView);
+                    listItem.measure(0, 0);
+                    params.height = listItem.getMeasuredHeight() * list.size() + (compListView.getDividerHeight()) * list.size(); //假设你那“更多”的View高为50
+                    compListView.setLayoutParams(params);
+
+                    //绑定事件
+//                    compListView.setOnItemClickListener(this);
+                    return;
                 }
             }
-        }else if (requestCode == 4) {
+            this.findViewById(R.id.compList).setVisibility(GONE);
+            this.findViewById(R.id.comp).setVisibility(GONE);
+        } else if (requestCode == 4) {
             //首页专家列表
             if (msg != null) {
 
                 List<Expert> list = (List<Expert>) msg;
-                LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.expertList);
+                ListView expertListView = (ListView) this.findViewById(R.id.expertList);
                 if (list.size() > 0) {
                     this.findViewById(R.id.expertList).setVisibility(VISIBLE);
-                    ExpertLinearLayoutAdapter expertLinearLayoutAdapter = new ExpertLinearLayoutAdapter(context, list,linearLayout);
-                    expertLinearLayoutAdapter.init();
-                } else {
+                    ExpertListAdapter expertListAdapter = new ExpertListAdapter(context, list);
 
-                    this.findViewById(R.id.expertList).setVisibility(GONE);
+                    expertListView.setAdapter(expertListAdapter);
+
+                    //修改listview 高度
+                    ViewGroup.LayoutParams params = expertListView.getLayoutParams();
+                    View listItem = expertListAdapter.getView(0, null, expertListView);
+                    listItem.measure(0, 0);
+                    params.height = listItem.getMeasuredHeight() * list.size() + (expertListView.getDividerHeight()) * list.size(); //假设你那“更多”的View高为50
+                    expertListView.setLayoutParams(params);
+
+                    //绑定事件
+//                    /expertListView.setOnItemClickListener(this);
+                    return;
                 }
             }
+            this.findViewById(R.id.expertList).setVisibility(GONE);
+            this.findViewById(R.id.expert).setVisibility(GONE);
+        } else if (requestCode == 5) {
+            //首页产品列表
+            if (msg != null) {
+
+                List<Product> list = (List<Product>) msg;
+                ListView productListview = (ListView) this.findViewById(R.id.productList);
+                if (list.size() > 0) {
+                    this.findViewById(R.id.productList).setVisibility(VISIBLE);
+                    this.findViewById(R.id.product).setVisibility(VISIBLE);
+                    ProductListAdapter productListAdapter = new ProductListAdapter(context, list);
+
+                    productListview.setAdapter(productListAdapter);
+
+                    //修改listview 高度
+                    ViewGroup.LayoutParams params = productListview.getLayoutParams();
+                    View listItem = productListAdapter.getView(0, null, productListview);
+                    listItem.measure(0, 0);
+                    params.height = listItem.getMeasuredHeight() * list.size() + (productListview.getDividerHeight()) * list.size(); //假设你那“更多”的View高为50
+                    productListview.setLayoutParams(params);
+
+                    //绑定事件
+//                    productListview.setOnItemClickListener(this);
+                    return;
+                }
+            }
+            this.findViewById(R.id.productList).setVisibility(GONE);
+            this.findViewById(R.id.product).setVisibility(GONE);
+        } else if (requestCode == 6) {
+            //首页项目列表
+            if (msg != null) {
+
+                List<FundProject> list = (List<FundProject>) msg;
+                ListView projListview = (ListView) this.findViewById(R.id.projList);
+                if (list.size() > 0) {
+                    this.findViewById(R.id.projList).setVisibility(VISIBLE);
+                    this.findViewById(R.id.proj).setVisibility(VISIBLE);
+                    ProjListAdapter projListAdapter = new ProjListAdapter(context, list);
+
+                    projListview.setAdapter(projListAdapter);
+
+                    //修改listview 高度
+                    ViewGroup.LayoutParams params = projListview.getLayoutParams();
+                    View listItem = projListAdapter.getView(0, null, projListview);
+                    listItem.measure(0, 0);
+                    params.height = listItem.getMeasuredHeight() * list.size() + (projListview.getDividerHeight()) * list.size(); //假设你那“更多”的View高为50
+                    projListview.setLayoutParams(params);
+
+                    //绑定事件
+//                    projListview.setOnItemClickListener(this);
+                    return;
+                }
+            }
+            this.findViewById(R.id.projList).setVisibility(GONE);
+            this.findViewById(R.id.proj).setVisibility(GONE);
         }
     }
+
 }

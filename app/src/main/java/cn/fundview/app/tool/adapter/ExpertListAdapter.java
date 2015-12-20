@@ -11,20 +11,20 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.fundview.R;
-import cn.fundview.app.domain.model.Requ;
+import cn.fundview.app.domain.model.Expert;
 import cn.fundview.app.tool.StringUtils;
 import cn.fundview.app.tool.bitmap.XUtilsImageLoader;
 
 /**
- * 技术需求适配器
+ *专家适配器
  */
-public class RequAdapter extends BaseAdapter {
+public class ExpertListAdapter extends BaseAdapter {
 
-    private List<Requ> dataSource;
+    private List<Expert> dataSource;
     private Context context;
     private LayoutInflater inflater;
 
-    public RequAdapter(Context context, List<Requ> dataSource) {
+    public ExpertListAdapter(Context context, List<Expert> dataSource) {
 
         this.context = context;
         this.dataSource = dataSource;
@@ -53,64 +53,56 @@ public class RequAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-        Requ requ = dataSource.get(position);
+        Expert expert = dataSource.get(position);
         if (convertView == null || convertView.getTag() != null) {          //只有数据加载完成后才能重新使用
-            convertView = inflater.inflate(R.layout.requ_item, null);
-            convertView.setTag(requ);
+            convertView = inflater.inflate(R.layout.expert_item, null);
+            convertView.setTag(expert);
         }
 
         //logo
+        //logo
         ImageView logo = (ImageView) convertView.findViewById(R.id.logo);   //logo
-//        String url = requ.getLogo();
-//        String fileName = url.substring(url.lastIndexOf("/") + 1);
-//        Log.d(Constants.TAG, url + "|" + fileName);
-//        BitmapItem bitmapItem = new BitmapItem(context, logo, requ.getLogo(), Constants.requLogoPath + requ.getId() + "/" + fileName, R.mipmap.company_logo);
-//        bitmapItem.show();
-
         XUtilsImageLoader imageLoader = new XUtilsImageLoader(context, R.mipmap.company_logo);
-        imageLoader.display(logo,requ.getLogo());
+        imageLoader.display(logo, expert.getLogo());
 
         //title
         TextView title = (TextView) convertView.findViewById(R.id.title);
-        if(!StringUtils.isBlank(requ.getName())) {
+        if(!StringUtils.isBlank(expert.getName())) {
 
-            title.setText(requ.getName());
+            title.setText(expert.getName());
+        }
+
+        //专业职称
+        TextView professionalTitleTextView = (TextView) convertView.findViewById(R.id.professionalTitle);
+        if(!StringUtils.isBlank(expert.getProfessionalTitle())) {
+
+            professionalTitleTextView.setText(expert.getProfessionalTitle());
         }
 
         //生产环节
-        TextView hj =  (TextView) convertView.findViewById(R.id.hj);
-        if(!StringUtils.isBlank(requ.getHj())) {
+        TextView trade =  (TextView) convertView.findViewById(R.id.trade);
+        if(!StringUtils.isBlank(expert.getTradeName())) {
 
-            hj.setText("生产环节:" + requ.getHj());
+            trade.setText("行业:" + expert.getTradeName());
         }else {
 
-            hj.setText("生产环节:暂未填写");
+            trade.setText("应用行业:暂未填写");
         }
 
         //comp
-        TextView compView = (TextView) convertView.findViewById(R.id.compname);
+        TextView compView = (TextView) convertView.findViewById(R.id.area);
 
-        if(StringUtils.isBlank(requ.getOwnerName())) {
+        if(StringUtils.isBlank(expert.getAreaName())) {
 
             compView.setText("暂未填写");
         }else {
 
-            compView.setText(requ.getOwnerName());
-        }
-
-        //price
-        TextView price = (TextView)convertView.findViewById(R.id.price);
-        if(requ.getFinPlan() <= 0) {
-
-            price.setText("面议");
-        }else {
-
-            price.setText("￥" + requ.getFinPlan() + "万");
+            compView.setText(expert.getAreaName());
         }
         return convertView;
     }
 
-    public void dataChanged(List<Requ> dataSource) {
+    public void dataChanged(List<Expert> dataSource) {
 
         this.dataSource = dataSource;
         notifyDataSetChanged();

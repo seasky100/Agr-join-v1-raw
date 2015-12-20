@@ -11,20 +11,20 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.fundview.R;
-import cn.fundview.app.domain.model.Requ;
+import cn.fundview.app.domain.model.Product;
 import cn.fundview.app.tool.StringUtils;
 import cn.fundview.app.tool.bitmap.XUtilsImageLoader;
 
 /**
- * 技术需求适配器
+ * 产品适配器
  */
-public class RequAdapter extends BaseAdapter {
+public class ProductListAdapter extends BaseAdapter {
 
-    private List<Requ> dataSource;
+    private List<Product> dataSource;
     private Context context;
     private LayoutInflater inflater;
 
-    public RequAdapter(Context context, List<Requ> dataSource) {
+    public ProductListAdapter(Context context, List<Product> dataSource) {
 
         this.context = context;
         this.dataSource = dataSource;
@@ -53,64 +53,58 @@ public class RequAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-        Requ requ = dataSource.get(position);
+        Product product = dataSource.get(position);
         if (convertView == null || convertView.getTag() != null) {          //只有数据加载完成后才能重新使用
-            convertView = inflater.inflate(R.layout.requ_item, null);
-            convertView.setTag(requ);
+            convertView = inflater.inflate(R.layout.product_item, null);
+            convertView.setTag(product);
         }
 
         //logo
         ImageView logo = (ImageView) convertView.findViewById(R.id.logo);   //logo
-//        String url = requ.getLogo();
-//        String fileName = url.substring(url.lastIndexOf("/") + 1);
-//        Log.d(Constants.TAG, url + "|" + fileName);
-//        BitmapItem bitmapItem = new BitmapItem(context, logo, requ.getLogo(), Constants.requLogoPath + requ.getId() + "/" + fileName, R.mipmap.company_logo);
-//        bitmapItem.show();
-
-        XUtilsImageLoader imageLoader = new XUtilsImageLoader(context, R.mipmap.company_logo);
-        imageLoader.display(logo,requ.getLogo());
+        XUtilsImageLoader imageLoader = new XUtilsImageLoader(context, R.mipmap.product_default);
+        imageLoader.display(logo, product.getLogo());
 
         //title
         TextView title = (TextView) convertView.findViewById(R.id.title);
-        if(!StringUtils.isBlank(requ.getName())) {
+        if(!StringUtils.isBlank(product.getName())) {
 
-            title.setText(requ.getName());
+            title.setText(product.getName());
         }
 
-        //生产环节
-        TextView hj =  (TextView) convertView.findViewById(R.id.hj);
-        if(!StringUtils.isBlank(requ.getHj())) {
+        //规格
+        TextView trade =  (TextView) convertView.findViewById(R.id.unit);
+        if(!StringUtils.isBlank(product.getUnit())) {
 
-            hj.setText("生产环节:" + requ.getHj());
+            trade.setText("规格:" + product.getUnit());
         }else {
 
-            hj.setText("生产环节:暂未填写");
+            trade.setText("规格:暂未填写");
         }
 
-        //comp
-        TextView compView = (TextView) convertView.findViewById(R.id.compname);
+        //所属企业
+        TextView compView = (TextView) convertView.findViewById(R.id.ownername);
 
-        if(StringUtils.isBlank(requ.getOwnerName())) {
+        if(StringUtils.isBlank(product.getCompName())) {
 
             compView.setText("暂未填写");
         }else {
 
-            compView.setText(requ.getOwnerName());
+            compView.setText(product.getCompName());
         }
 
         //price
         TextView price = (TextView)convertView.findViewById(R.id.price);
-        if(requ.getFinPlan() <= 0) {
+        if(product.getPrice() <= 0) {
 
             price.setText("面议");
         }else {
 
-            price.setText("￥" + requ.getFinPlan() + "万");
+            price.setText("￥" + product.getPrice() + "元");
         }
         return convertView;
     }
 
-    public void dataChanged(List<Requ> dataSource) {
+    public void dataChanged(List<Product> dataSource) {
 
         this.dataSource = dataSource;
         notifyDataSetChanged();

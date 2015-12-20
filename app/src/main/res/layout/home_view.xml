@@ -226,13 +226,11 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <ListView
                 android:id="@+id/compList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            </LinearLayout>
+                android:layout_height="wrap_content">
+            </ListView>
 
             <!-- 专家资源 -->
             <LinearLayout
@@ -266,13 +264,11 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <ListView
                 android:id="@+id/expertList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            </LinearLayout>
+                android:layout_height="wrap_content">
+            </ListView>
 
             <!-- 悬赏需求 -->
             <LinearLayout
@@ -306,13 +302,11 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/requlist"
+            <ListView
+                android:id="@+id/requList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            </LinearLayout>
+                android:layout_height="wrap_content">
+            </ListView>
 
             <!-- 热门成果-->
             <LinearLayout
@@ -346,12 +340,11 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/achvlist"
+            <ListView
+                android:id="@+id/achvList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"></LinearLayout>
-
+                android:layout_height="wrap_content">
+            </ListView>
             <!-- 最新产品 -->
             <LinearLayout
                 android:id="@+id/product"
@@ -384,11 +377,11 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/productlist"
+            <ListView
+                android:id="@+id/productList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"></LinearLayout>
+                android:layout_height="wrap_content">
+            </ListView>
 
             <!-- 融资项目 -->
             <LinearLayout
@@ -422,11 +415,11 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/projlist"
+            <ListView
+                android:id="@+id/projList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"></LinearLayout>
+                android:layout_height="wrap_content">
+            </ListView>
 
         </LinearLayout>
     </ScrollView>
